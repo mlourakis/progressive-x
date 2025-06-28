@@ -6,7 +6,7 @@ project(ProgressiveX LANGUAGES CXX)
 option(USE_OPENMP "Use OPENMP" ON)
 
 # indicate if the sample project should be included
-option(CREATE_SAMPLE_PROJECT "Create the Sample Project" ON)
+option(CREATE_SAMPLE_PROJECT "Create the Sample Project" OFF)
 
 # indicate if GFLags should be enabled
 option(USE_GFLAGS "Enable Google Flags." ON)
@@ -17,8 +17,8 @@ option(USE_GLOG "Enable Google Log." ON)
 SET (CMAKE_BUILD_TYPE "RELEASE")
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-strict-aliasing")
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wno-write-strings")
+	#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-strict-aliasing")
+	#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wno-write-strings")
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated -ansi")
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -ftree-vectorize -funroll-loops")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
@@ -90,10 +90,15 @@ endif()
 #    set(GLOG_LIBRARIES ${GLOG_LIBRARY})
 #endif()
 #
-find_package(glog REQUIRED)
-if(NOT glog_FOUND)
-	message(FATAL_ERROR "Glog not found.")
-endif()
+
+#find_package(glog REQUIRED)
+#if(NOT glog_FOUND)
+#	message(FATAL_ERROR "Glog not found.")
+#endif()
+
+# FindPkgConfig workflow
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(glog REQUIRED libglog)
 
 # ==============================================================================
 # Find OpenMP
@@ -114,7 +119,7 @@ SET(SOURCE_DIR "src/pyprogressivex")
 
 include_directories (
 	${PROJECT_SOURCE_DIR}/graph-cut-ransac/src/pygcransac/include
-	${GLOG_INCLUDE_DIR}
+	${glog_INCLUDE_DIRS} #${GLOG_INCLUDE_DIR}
 )
 
 # ==============================================================================
@@ -160,15 +165,18 @@ file(GLOB_RECURSE SRCS_PROGRESSIVEX
 # Structure: Python binding
 # ==============================================================================
 # Generate python module
+if(0)
 add_subdirectory(lib/pybind11)
 
 pybind11_add_module(pyprogressivex ${SOURCE_DIR}/src/bindings.cpp ${SOURCE_DIR}/src/progressivex_python.cpp  ${HDRS_PROGRESSIVEX} ${SRCS_PROGRESSIVEX} )
+target_compile_options(pyprogressivex PRIVATE -O3 -std=c++17)
 target_link_libraries(pyprogressivex PRIVATE  
 	${OpenCV_LIBS} 
 	Eigen3::Eigen 
-	glog::glog 
+	${glog_LIBRARIES} #glog::glog
 	gflags
 	GraphCutRANSAC)
+endif(0)
 
 add_library(${PROJECT_NAME} STATIC
 	${HDRS_PROGRESSIVEX}
@@ -178,7 +186,7 @@ add_library(${PROJECT_NAME} STATIC
 target_link_libraries (${PROJECT_NAME}
 	${OpenCV_LIBS}
 	Eigen3::Eigen
-	glog::glog
+	${glog_LIBRARIES} #glog::glog
 	gflags
 	GraphCutRANSAC)
 	
@@ -198,7 +206,7 @@ if (CREATE_SAMPLE_PROJECT)
 		${PROJECT_NAME}
 		Eigen3::Eigen
 		gflags
-		glog::glog
+		${glog_LIBRARIES} #glog::glog
 		GraphCutRANSAC
 	)
 
