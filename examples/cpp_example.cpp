@@ -401,7 +401,7 @@ void testMulti6DPoseFitting(
 		local_optimization_sampler); // The sampler used in the local optimization of GC-RANSAC
 	
 	printf("Processing time = %f secs.\n", progressive_x.getStatistics().processing_time);
-	printf("Number of found model instances = %d (there are %d instances in the reference labeling).\n", progressive_x.getModelNumber(), ground_truth_poses.rows);
+	printf("Number of found model instances = %ld (there are %d instances in the reference labeling).\n", progressive_x.getModelNumber(), ground_truth_poses.rows);
 
 	for (size_t pose_idx = 0; pose_idx < ground_truth_poses.rows; ++pose_idx)
 	{
@@ -431,7 +431,7 @@ void testMulti6DPoseFitting(
 			}
 		}
 
-		printf("%d-th pose's error\n\tRotation error = %f degrees\n\tTranslation error = %f mm\n",
+		printf("%ld-th pose's error\n\tRotation error = %f degrees\n\tTranslation error = %f mm\n",
 			pose_idx + 1,
 			best_rotation_error,
 			best_translation_error);
@@ -729,7 +729,7 @@ void testMultiHomographyFitting(
 
 	printf("Processing time = %f secs.\n", progressive_x.getStatistics().processing_time);
 	printf("Misclassification error <= %f\%.\n", misclassification_error);
-	printf("Number of found model instances = %d (there are %d instances in the reference labeling).\n", progressive_x.getModelNumber(), reference_model_number);
+	printf("Number of found model instances = %ld (there are %ld instances in the reference labeling).\n", progressive_x.getModelNumber(), reference_model_number);
 	
 	// Visualize the final results if needed
 	if (visualize_results_)

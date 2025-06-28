@@ -228,10 +228,10 @@ int findHomographies_(
 			{ 16, 8, 4, 2 },	// The layer of grids. The cells of the finest grid are of dimension 
 								// (source_image_width / 16) * (source_image_height / 16)  * (destination_image_width / 16)  (destination_image_height / 16), etc.
 			kSampleSize, // The size of a minimal sample
-			{ source_image_width, // The width of the source image
-				source_image_height, // The height of the source image
-				destination_image_width, // The width of the destination image
-				destination_image_height }, // The height of the destination image
+			{ static_cast<double>(source_image_width), // The width of the source image
+				static_cast<double>(source_image_height), // The height of the source image
+				static_cast<double>(destination_image_width), // The width of the destination image
+				static_cast<double>(destination_image_height) }, // The height of the destination image
 			0.5)); // The length (i.e., 0.5 * <point number> iterations) of fully blending to global sampling 
 	}
 	else if (sampler_id == 3) // Initializing a NAPSAC sampler
@@ -239,7 +239,7 @@ int findHomographies_(
 			new gcransac::sampler::NapsacSampler<gcransac::neighborhood::FlannNeighborhoodGraph>(&points, &neighborhood));
 	else
 	{
-		fprintf(stderr, "Unknown sampler identifier: %d. The accepted samplers are 0 (uniform sampling), 1 (PROSAC sampling), 2 (P-NAPSAC sampling)\n",
+		fprintf(stderr, "Unknown sampler identifier: %ld. The accepted samplers are 0 (uniform sampling), 1 (PROSAC sampling), 2 (P-NAPSAC sampling)\n",
 			sampler_id);
 		return 0;
 	}
@@ -360,7 +360,7 @@ int findVanishingPoints_(
 	}
 	else
 	{
-		fprintf(stderr, "Unknown sampler identifier: %d. The accepted samplers are 0 (uniform sampling), 1 (PROSAC sampling), 2 (P-NAPSAC sampling)\n",
+		fprintf(stderr, "Unknown sampler identifier: %ld. The accepted samplers are 0 (uniform sampling), 1 (PROSAC sampling), 2 (P-NAPSAC sampling)\n",
 			sampler_id);
 		return 0;
 	}
@@ -476,7 +476,7 @@ int findLines_(
 			new gcransac::sampler::NapsacSampler<gcransac::neighborhood::FlannNeighborhoodGraph>(&points, &neighborhood));
 	else
 	{
-		fprintf(stderr, "Unknown sampler identifier: %d. The accepted samplers are 0 (uniform sampling), 1 (PROSAC sampling), 2 (P-NAPSAC sampling)\n",
+		fprintf(stderr, "Unknown sampler identifier: %ld. The accepted samplers are 0 (uniform sampling), 1 (PROSAC sampling), 2 (P-NAPSAC sampling)\n",
 			sampler_id);
 		return 0;
 	}
@@ -592,10 +592,10 @@ int findTwoViewMotions_(
 			{ 16, 8, 4, 2 },	// The layer of grids. The cells of the finest grid are of dimension 
 								// (source_image_width / 16) * (source_image_height / 16)  * (destination_image_width / 16)  (destination_image_height / 16), etc.
 			kSampleSize, // The size of a minimal sample
-			{ source_image_width, // The width of the source image
-				source_image_height, // The height of the source image
-				destination_image_width, // The width of the destination image
-				destination_image_height }, // The height of the destination image
+			{ static_cast<double>(source_image_width), // The width of the source image
+				static_cast<double>(source_image_height), // The height of the source image
+				static_cast<double>(destination_image_width), // The width of the destination image
+				static_cast<double>(destination_image_height) }, // The height of the destination image
 			0.5)); // The length (i.e., 0.5 * <point number> iterations) of fully blending to global sampling 
 	}
 	else if (sampler_id == 3) // Initializing a NAPSAC sampler
@@ -603,7 +603,7 @@ int findTwoViewMotions_(
 			new gcransac::sampler::NapsacSampler<gcransac::neighborhood::FlannNeighborhoodGraph>(&points, &neighborhood));
 	else
 	{
-		fprintf(stderr, "Unknown sampler identifier: %d. The accepted samplers are 0 (uniform sampling), 1 (PROSAC sampling), 2 (P-NAPSAC sampling)\n",
+		fprintf(stderr, "Unknown sampler identifier: %ld. The accepted samplers are 0 (uniform sampling), 1 (PROSAC sampling), 2 (P-NAPSAC sampling)\n",
 			sampler_id);
 		return 0;
 	}
