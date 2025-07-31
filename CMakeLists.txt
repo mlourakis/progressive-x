@@ -135,7 +135,7 @@ file(GLOB_RECURSE SRCS_GraphCutRANSAC
 	"graph-cut-ransac/src/pygcransac/include/*.cpp"
 )
 
-add_library(GraphCutRANSAC SHARED
+add_library(GraphCutRANSAC STATIC #SHARED
 	${HDRS_GraphCutRANSAC}
 	${SRCS_GraphCutRANSAC}
 )
